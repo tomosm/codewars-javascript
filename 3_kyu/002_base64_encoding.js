@@ -35,7 +35,7 @@
     return lpad(parseInt(char.charCodeAt(0)).toString(2), 8, '0');
   };
 
-  const CODES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  const CODES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var toCode = function (index) {
     return CODES[index];
   };
@@ -78,10 +78,9 @@
     return decodeStr;
   };
 
-  String.prototype.toBase64 = encodeBase64;
-  String.prototype.fromBase64 = decodeBase64;
+  if (!String.prototype.toBase64) String.prototype.toBase64 = encodeBase64;
+  if (!String.prototype.fromBase64) String.prototype.fromBase64 = decodeBase64;
 }());
-
 
 // Tests.
 'this is a string!!'.toBase64() === 'dGhpcyBpcyBhIHN0cmluZyEh'; // true.
