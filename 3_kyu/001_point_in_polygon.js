@@ -67,7 +67,7 @@ function pointInPoly(poly, point) {
 
       totalRadian += calcRadian();
     }
-    return totalRadian >= 360;
+    return totalRadian >= 360; // 180 * (poly.length - 3)
   }
 
   return crossingNumberAlgo();
