@@ -26,35 +26,56 @@
  */
 
 // Solutions.
+// function solve_graph(start, end, arcs) {
+//   var start_arcs = arcs.filter(function (arc) {
+//     return start === arc.start;
+//   });
+//   var left_arcs = arcs.filter(function (arc) {
+//     return start !== arc.start;
+//   });
+//
+//   function node_exists(arc) {
+//     return start === end || end === arc.end || solve_graph(arc.end, end, left_arcs);
+//   }
+//
+//   return start_arcs.some(node_exists);
+// }
 function solve_graph(start, end, arcs) {
-  var start_arcs = arcs.filter(function (arc) {
-    return start === arc.start;
-  });
-  var left_arcs = arcs.filter(function (arc) {
-    return start !== arc.start;
-  });
+  const visited = [];
 
-  function node_exists(arc) {
-    return start === end || end === arc.end || solve_graph(arc.end, end, left_arcs);
+  function _solve_graph(start, end, arcs) {
+    if (start === end) {
+      return true;
+    }
+
+    for (let i = 0, l = arcs.length; i < l; i++) {
+      if (start === arcs[i].start && visited.indexOf(i) === -1) {
+        visited.push(i); // push visited the arc.
+        if (_solve_graph(arcs[i].end, end, arcs)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-  return start_arcs.some(node_exists);
+  return _solve_graph(start, end, arcs);
 }
 
 // Tests.
 var arcs = [
-  {start: "a", end: "b"},
+  { start: "a", end: "b" },
 ];
 console.log(solve_graph("a", "b", arcs)); // true.
 console.log(solve_graph("a", "c", arcs)); // false.
 console.log(solve_graph("a", "a", arcs)); // true.
 
 var arcs = [
-  {start: "a", end: "b"},
-  {start: "b", end: "c"},
-  {start: "c", end: "a"},
-  {start: "c", end: "d"},
-  {start: "e", end: "a"}
+  { start: "a", end: "b" },
+  { start: "b", end: "c" },
+  { start: "c", end: "a" },
+  { start: "c", end: "d" },
+  { start: "e", end: "a" }
 ];
 console.log(solve_graph("a", "d", arcs)); // true.
 console.log(solve_graph("a", "e", arcs)); // false.
